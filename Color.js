@@ -1,4 +1,3 @@
-
 const GOOGLE = 0;
 const WEBTRENDS = 1;
 const BLUEISH = 2;
@@ -6,7 +5,7 @@ const BLUEISH = 2;
 class Palette {
   constructor() {
     this.__built=false;
-    this.colors = this.palette();
+    this.colors = this.swatch();
     this.dict = {};
   }
   build() {
@@ -26,6 +25,13 @@ class Palette {
   random() {
     return random(this.colors);
   }
+	get length(){
+		return this.colors.length;
+	}
+	map(value, min, max){
+		let m = map(value,min,max, 0, this.length - 1);
+		return this.index(floor(m));
+	}
   index(index) {
     return this.colors[index];
   }
@@ -44,7 +50,7 @@ class Palette {
     this.dict[clr.toString()] = this.colors[d];
     return this.colors[d];
   }
-  palette(swatch){
+  swatch(swatch){
     swatch = swatch || 0;
     let clr = [[
       color(0),
@@ -72,7 +78,4 @@ class Palette {
     return this.colors;
   }
 }
-
-
-
 
