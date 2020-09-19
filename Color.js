@@ -23,9 +23,6 @@ class Palette {
   get alpha() {
     return this.alpha;
   }
-  random() {
-    return random(this.colors);
-  }
   get length() {
     return this.colors.length;
   }
@@ -34,7 +31,15 @@ class Palette {
     return this.index(floor(m));
   }
   index(index) {
+		this.n = index;
     return this.colors[index];
+  }
+	bg(){
+		return this.index(0);
+	}
+  random() {
+		this.n = floor(random( this.colors.length-1 ));
+    return this.index(this.n);
   }
 	next(){
 		this.n = this.n+1 == this.colors.length ? 0 : this.n+1;
@@ -58,7 +63,7 @@ class Palette {
   swatch(swatch = 0) {
     let clr = [
       [
-        color(0),
+        // color(0),
         color(118, 12, 232), //magenta
         color(239, 0, 52), //red
         color(2, 151, 106), //green
@@ -75,7 +80,16 @@ class Palette {
         color(50, 127, 184), //dark blue
         color(60, 37, 121), //navy
         color(93, 80, 189), //magenta
-        color(255)
+        // color(255)
+      ],
+      [
+        color(255, 193, 178), //pink
+        color(30, 30, 84), //dark blue
+        color(82, 100, 246), //light blue
+        color(64, 205, 250), //blue
+        color(252, 104, 94), //red
+        color(162, 184, 244), //very light blue
+        // color(255)
       ]
     ];
     this.colors = clr[swatch];
