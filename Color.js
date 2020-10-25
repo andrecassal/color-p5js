@@ -1,27 +1,29 @@
 const GOOGLE = 0;
 const WEBTRENDS = 1;
 const BLUEISH = 2;
-
+ 
 class Palette {
   constructor() {
-    this.__built = false;
     this.colors = this.swatch();
     this.dict = {};
 		this.n = 0;
+		this.__alpha = 255;
   }
-  build() {
+  buildDictionary() {
+		if(this.__built) return;
     for (let clr of this.colors) {
       clr.vect = createVector(red(clr), green(clr), blue(clr));
     }
     this.__built = true;
   }
-  set alpha(v) {
+  setAlpha(v) {
     for (let clr of this.colors) {
       clr.setAlpha(v);
     }
+		this.__alpha = v;
   }
-  get alpha() {
-    return this.alpha;
+  getAlpha() {
+    return this.__alpha;
   }
   get length() {
     return this.colors.length;
@@ -46,6 +48,7 @@ class Palette {
 		return this.colors[ this.n ];
 	}
   nearest(clr) {
+		this.buildDictionary();
     if (this.dict.hasOwnProperty(clr.toString())) {
       return this.dict[clr.toString()];
     }
@@ -93,7 +96,57 @@ class Palette {
       ]
     ];
     this.colors = clr[swatch];
-    this.build();
     return this.colors;
   }
 }
+
+
+
+
+function linearGradient(clr=[], x1,y1,x2,y2){
+	let ctx = drawingContext; // global canvas context p5.js var
+
+	x1 = x1 || 0;
+	y1 = y1 || 0;
+	x2 = x2 || 0;
+	y2 = y2 || height;	
+
+	let grd = ctx.createLinearGradient(x1, y1, x2, y2);
+	if(grd && clr && clr.length>1){
+		for(let i=0;i<clr.length;i++){
+			let s = map(i,0,clr.length-1,0,1,true)
+			grd.addColorStop(s, clr[i].toString());
+		}
+		ctx.fillStyle = grd;			
+	}
+}
+
+function radialGradient(clr=[], x1, y1, r1, x2, y2, r2){
+		let ctx = drawingContext; // global canvas context p5.js var
+		let c2 = sqrt(width*height);
+		let c1 = c2/2;
+		x1 = x1 || c1;
+		y1 = y1 || c1;
+		r1 = r1 || 0;
+		x2 = x2 || c2;
+		y2 = y2 || c2;	
+		r2 = r2 || c2;
+
+	
+		// let cx = x1 + (x2 - x1) / 2;
+		// let cy = y1 + (y2 - y1) / 2;
+		let grd = ctx.createRadialGradient(x1, y1, r1, x2, y2, sqrt(width*height));
+		if(grd && clr && clr.length>1){
+			for(let i=0;i<clr.length;i++){
+				let s = map(i,0,clr.length-1,0,1,true)
+				grd.addColorStop(s, clr[i].toString());
+			}
+			ctx.fillStyle = grd;
+		}
+		
+		return [x1,y1,x2,y2]
+	
+	}
+
+
+
