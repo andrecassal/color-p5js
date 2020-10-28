@@ -25,7 +25,7 @@ class Palette {
   getAlpha() {
     return this.__alpha;
   }
-  get length() {
+  getLength() {
     return this.colors.length;
   }
   map(value, min, max) {
@@ -147,6 +147,15 @@ function radialGradient(clr=[], x1, y1, r1, x2, y2, r2){
 		return [x1,y1,x2,y2]
 	
 	}
+
+
+
+
+
+
+
+
+
 
 
 
